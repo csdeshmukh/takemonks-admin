@@ -2,9 +2,11 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import { useTranslation } from "react-i18next";
-
+// import RootStyled from "./styled";
 // notification
-import toast from 'react-hot-toast';
+import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
+
+import toast from "react-hot-toast";
 // material
 import {
   Card,
@@ -22,8 +24,6 @@ import {
 
 // icons
 import LoadingButton from "@mui/lab/LoadingButton";
-import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
-
 // components
 import {
   HeaderBreadcrumbs,
@@ -41,6 +41,13 @@ import * as api from "src/services";
 import { fCurrency } from "src/utils/formatNumber";
 // ----------------------------------------------------------------------
 export default function OrderDetail() {
+  // const ThumbImgStyle = styled("img")(({ theme }) => ({
+  //   width: 64,
+  //   height: 64,
+  //   objectFit: "cover",
+  //   margin: theme.spacing(0, 2),
+  //   borderRadius: theme.shape.borderRadius,
+  // }));
   const navigate = useNavigate();
   const { id } = useParams();
   const { t } = useTranslation("order");
@@ -58,8 +65,13 @@ export default function OrderDetail() {
     }
   );
 
-
   const data = singleOrder?.data;
+  let amcsData = [];
+  if (data) {
+    console.log(data.amcsItems, "here data ");
+    amcsData = data.amcsItems;
+    console.log(amcsData);
+  }
   const items = data?.items;
   const { mutate, isLoading: deleteLoading } = useMutation(api.deleteOrder, {
     onSuccess: () => {
@@ -140,9 +152,10 @@ export default function OrderDetail() {
           </Typography>
         )}
         <DetailsTable
-          data={items}
+          data={data}
           isLoading={isLoading}
           currency={data?.currency}
+          amcsItem={amcsData}
         />
         <Divider />
         <Table>
@@ -207,6 +220,7 @@ export default function OrderDetail() {
                 )}
               </TableCell>
             </TableRow>
+
             <TableRow>
               <TableCell colSpan={4}></TableCell>
               <TableCell align="right">
@@ -229,7 +243,6 @@ export default function OrderDetail() {
                   />
                 ) : (
                   <strong>
-                    {" "}
                     {data?.currency} {data?.total}
                   </strong>
                 )}

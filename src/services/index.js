@@ -282,6 +282,10 @@ export const getAmcs = async (page, search) => {
   const { data } = await http.get(`/admin/amcs?search=${search}&page=${page}`);
   return data;
 };
+export const getAmcsForBook = async (page, search) => {
+  const { data } = await http.get(`/admin/amcs?search=${search}&page=${page}`);
+  return data;
+};
 
 export const newAmc = async (payload) => {
   const { data } = await http.post(`/admin/amcs`, payload);

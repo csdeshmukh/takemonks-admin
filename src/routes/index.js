@@ -86,6 +86,8 @@ export default function Router() {
         { path: "users/:id/addproduct", element: <AddProductForUser /> },
         { path: "users/:id/addamc", element: <AddAmcForUser /> },
         { path: "users/add", element: <AddUser /> },
+        { path: "users/cart", element: <Cart /> },
+        { path: "users/buyAmc", element: <BuyAmcs /> },
         { path: "users/edit/:id", element: <EditUser /> },
         { path: "newsletter", element: <Newsletter /> },
         { path: "settings/general", element: <GeneralSettings /> },
@@ -160,6 +162,8 @@ const SubCategories = Loadable(
 const Users = Loadable(lazy(() => import("src/pages/users")));
 const UserProfile = Loadable(lazy(() => import("src/pages/users/profile")));
 const AddUser = Loadable(lazy(() => import("src/pages/users/addUser")));
+const BuyAmcs = Loadable(lazy(() => import("src/pages/users/buyAmcs")));
+const Cart = Loadable(lazy(() => import("src/components/placedOrder/allCart")));
 const EditUser = Loadable(lazy(() => import("src/pages/users/editUser")));
 const AddProductForUser = Loadable(
   lazy(() => import("src/pages/users/addProduct"))

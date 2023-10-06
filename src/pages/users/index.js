@@ -1,7 +1,7 @@
 import * as api from "src/services";
 import { useQuery } from "react-query";
 // notification
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 // components
 import {
   HeaderBreadcrumbs,
@@ -26,7 +26,6 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 export default function UsersList() {
-
   const [searchParams] = useSearchParams();
   const pageParam = searchParams.get("page");
   const searchParam = searchParams.get("search");
@@ -60,6 +59,10 @@ export default function UsersList() {
             action={{
               href: `/users/add`,
               title: t("add-user"),
+            }}
+            doAction={{
+              href: `/users/buyAmc`,
+              title: t("Buy AMCS"),
             }}
           />
         </Toolbar>

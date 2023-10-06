@@ -36,6 +36,7 @@ import axios from "axios";
 import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartItems } from "src/redux/slices/settings";
+import { addCart } from "src/redux/slices/product";
 import { findIndex } from "lodash";
 import { useEffect } from "react";
 // ----------------------------------------------------------------------
@@ -84,8 +85,8 @@ export default function AddProductForm({
   const [apicall, setApicall] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const cartItems = useSelector((state) => state?.settings?.cartItems);
-
+  const cartItems = useSelector((state) => state?.product?.checkout?.cart);
+  console.log(cartItems, "cart Items ");
   //   const [changeName, setChangeName] = useState("Add to cart");
   const [productStatus, setProductStatus] = useState(false);
   const [cartItemsData, setCartItemsData] = useState([]);
@@ -156,19 +157,46 @@ export default function AddProductForm({
           setProductStatus(false);
           let tmp = [...cartItemsData];
           tmp.splice(removedProductIndex, 1);
-          dispatch(setCartItems([...tmp]));
+          dispatch(addCart([...tmp]));
           toast.success("Item Removed from cart");
         } else {
           //   data.incart = true;
           console.log(data);
           setProductStatus(true);
-          dispatch(setCartItems([...cartItems, data]));
+
+          let temp = {
+            _id: data?._id,
+            type: "product",
+            name: data.name,
+            cover: data.cover,
+            available: data.available,
+            price: data.price,
+            priceSale: data.priceSale === 0 ? data.price : data.priceSale,
+            color: data.colors || "any",
+            size: data.sizes || "any",
+            quantity: data.available < 1 ? 0 : 1,
+          };
+
+          dispatch(addCart([...cartItemsData, temp]));
           toast.success("Item Added to cart");
         }
       });
     } else {
       setProductStatus(true);
-      dispatch(setCartItems([...cartItems, data]));
+      let temp = {
+        _id: data?._id,
+        type: "product",
+        name: data.name,
+        cover: data.cover,
+        available: data.available,
+        price: data.price,
+        priceSale: data.priceSale === 0 ? data.price : data.priceSale,
+        color: data.colors || "any",
+        size: data.sizes || "any",
+        quantity: data.available < 1 ? 0 : 1,
+      };
+      console.log(temp);
+      dispatch(addCart([...cartItems, temp]));
       toast.success("Item Added to cart");
     }
   };

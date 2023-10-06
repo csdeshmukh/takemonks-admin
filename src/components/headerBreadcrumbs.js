@@ -13,6 +13,7 @@ import { uniqueId } from "lodash";
 
 HeaderBreadcrumbs.propTypes = {
   links: PropTypes.array,
+  doAction: PropTypes.object,
   action: PropTypes.object,
   heading: PropTypes.string.isRequired,
   moreLink: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
@@ -25,57 +26,101 @@ export default function HeaderBreadcrumbs({
   heading,
   moreLink = "" || [],
   sx,
+  doAction,
   ...other
 }) {
+  debugger;
   return (
     <Box sx={{ my: { sm: 1, xs: 0 }, width: 1, ...sx }}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <Box sx={{ flexGrow: 1, display: { sm: "flex", xs: "none" } }}>
           {links && <MBreadcrumbs links={links} {...other} />}
         </Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          {action ? (
+            action.href ? (
+              <>
+                <Box
+                  sx={{ flexShrink: 0, display: "flex", alignItems: "center" }}
+                >
+                  <Button
+                    variant="outlined"
+                    component={RouterLink}
+                    to={action.href}
+                    startIcon={action.icon ? action.icon : <AddIcon />}
+                    sx={{ display: { sm: "flex", xs: "none" } }}
+                  >
+                    {action.title}
+                  </Button>
+                </Box>
 
-        {action ? (
-          action.href ? (
-            <>
-              <Box
-                sx={{ flexShrink: 0, display: "flex", alignItems: "center" }}
-              >
-                <Button
-                  variant="outlined"
+                <Fab
+                  color="primary"
+                  aria-label="add"
+                  sx={{
+                    position: "fixed",
+                    bottom: 10,
+                    right: 10,
+                    zIndex: 1000,
+                    display: {
+                      sm: "none",
+                      xs: "flex",
+                    },
+                  }}
                   component={RouterLink}
                   to={action.href}
-                  startIcon={action.icon ? action.icon : <AddIcon />}
-                  sx={{ display: { sm: "flex", xs: "none" } }}
                 >
-                  {action.title}
-                </Button>
-              </Box>
+                  {action.icon ? action.icon : <AddIcon />}
+                </Fab>
+              </>
+            ) : (
+              action
+            )
+          ) : null}
+        </Box>
+        <Box sx={{ mx: 1 }}>
+          {doAction ? (
+            doAction.href ? (
+              <>
+                <Box
+                  sx={{ flexShrink: 0, display: "flex", alignItems: "center" }}
+                >
+                  <Button
+                    variant="outlined"
+                    component={RouterLink}
+                    to={doAction.href}
+                    startIcon={doAction.icon ? doAction.icon : <AddIcon />}
+                    sx={{ display: { sm: "flex", xs: "none" } }}
+                  >
+                    {doAction.title}
+                  </Button>
+                </Box>
 
-              <Fab
-                color="primary"
-                aria-label="add"
-                sx={{
-                  position: "fixed",
-                  bottom: 10,
-                  right: 10,
-                  zIndex: 1000,
-                  display: {
-                    sm: "none",
-                    xs: "flex",
-                  },
-                }}
-                component={RouterLink}
-                to={action.href}
-              >
-                {action.icon ? action.icon : <AddIcon />}
-              </Fab>
-            </>
-          ) : (
-            action
-          )
-        ) : null}
+                <Fab
+                  color="primary"
+                  aria-label="add"
+                  sx={{
+                    position: "fixed",
+                    bottom: 10,
+                    right: 10,
+                    zIndex: 1000,
+                    display: {
+                      sm: "none",
+                      xs: "flex",
+                    },
+                  }}
+                  component={RouterLink}
+                  to={doAction.href}
+                >
+                  {doAction.icon ? doAction.icon : <AddIcon />}
+                </Fab>
+              </>
+            ) : (
+              ""
+            )
+          ) : null}
+        </Box>
       </Box>
-
       <Box sx={{ ml: "auto" }}>
         {isString(moreLink) ? (
           <Link

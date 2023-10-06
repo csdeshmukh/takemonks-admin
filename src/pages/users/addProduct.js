@@ -27,25 +27,25 @@ export default function Create() {
 
 
     return (
-        <Page title={`Add Product | ${process.env.REACT_APP_DOMAIN_NAME}`}>
-            <Toolbar>
-                <HeaderBreadcrumbs
-                    heading="Product List"
-                    links={[
-                        { name: t("dashboard"), href: "/" },
-                        { name: t("users"), href: "/users" },
-                        { name: t("addproduct") },
-                    ]}
-                    action={{
-                        href: `/users/cart`,
-                        title: t("cart")
-                    }}
-                />
-            </Toolbar>
-            <AddProductForm
-                isLoading={isLoading}
-                categories={isLoading ? [] : data?.data}
-            />
-        </Page>
+      <Page title={`Add Product | ${process.env.REACT_APP_DOMAIN_NAME}`}>
+        <Toolbar>
+          <HeaderBreadcrumbs
+            heading="Product List"
+            links={[
+              { name: t("dashboard"), href: "/" },
+              { name: t("users"), href: "/users" },
+              { name: t("addproduct") },
+            ]}
+            action={{
+              href: `/users/cart`,
+              title: t("cart"),
+            }}
+          />
+        </Toolbar>
+        <AddProductForm
+          isLoading={isLoading}
+          categories={isLoading ? [] : data?.data}
+        />
+      </Page>
     );
 }
